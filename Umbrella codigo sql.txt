@@ -1,0 +1,163 @@
+-- creando la base de datos umbrella
+
+create database umbrella;
+
+-- usando la base de datos umbrella
+
+use umbrella;
+
+-- creacion de tablas
+
+create table marca(
+    id_marca char(5) not null primary key,
+    nombre_marca varchar(30) not null
+);
+
+create table modelo(
+    id_modelo char(5) not null primary key,
+    nombre_modelo varchar(30) not null
+);
+
+create table tipo_empleado(
+    id_tipoEmpleado char(5) not null primary key,
+    nom_tipo_empleado varchar(30) not null
+);
+
+create table area(
+    id_area char(5) not null primary key,
+    nom_area varchar(30) not null
+);
+
+create table tipo_documento(
+    id_tipoDocumento char(5) not null primary key,
+    nom_documento varchar(30) not null
+);
+
+create table empleado(
+    id_empleado char(5) not null,
+    id_area char(5) not null,
+    id_tipoDocumento char(5) not null,
+    numeroDocumento varchar(15) not null,
+    nombre_empleado varchar(30) not null,
+    apellido_empleado varchar(50) not null,
+    direccion varchar(150),
+    telefono varchar(16),
+    fecha_nacimiento date,
+    email varchar(50),
+    genero char(1),
+    estado boolean not null,
+    primary key(id_empleado),
+    foreign key(id_area) references area(id_area),
+    foreign key(id_tipoDocumento) references tipo_documento(id_tipoDocumento)
+);
+
+create table acceso(
+    id_empleado char(5) not null,
+    id_tipoEmpleado char(5) not null,
+    nombre_usuario varchar(30) not null,
+    password varchar(15) not null,
+    fecha date not null,
+    estado boolean not null,
+    primary key (id_empleado),
+    foreign key (id_tipoEmpleado) references tipo_empleado(id_tipoEmpleado)
+);
+
+create table proveedor(
+    id_proveedor char(5) not null,
+    id_tipoDocumento char(5) not null,
+    numeroDocumento varchar(15) not null,
+    nombre_proveedor varchar(30) not null,
+    apellido_proveedor varchar(50) not null,
+    direccion varchar(150) not null,
+    telefono varchar(16),
+    email varchar(50),
+    ruc varchar(11) not null,
+    razon_social varchar(50) not null,
+    web varchar(100),
+    estado boolean not null,
+    primary key(id_proveedor),
+    foreign key(id_tipoDocumento) references tipo_documento(id_tipoDocumento)
+);
+
+create table producto(
+    id_producto char(5) not null,
+    id_modelo char(5) not null,
+    id_marca char(5) not null,
+    nombre_producto varchar(100) not null,
+    descripcion varchar(100) not null,
+    cantidad_max int not null,
+    cantidad_min int not null,
+    unidad_medida varchar(10) not null,
+    costo_unitario decimal(9,2) not null,
+    primary key(id_producto),
+    foreign key(id_modelo) references modelo(id_modelo),
+    foreign key(id_marca) references marca(id_marca)
+);
+
+create table compra(
+    id_producto char(5) not null,
+    id_empleado char(5) not null,
+    id_proveedor char(5) not null,
+    fecha date not null,
+    cantidad int not null,
+    precio decimal(9,2) not null,
+    foreign key(id_producto) references producto(id_producto),
+    foreign key(id_empleado) references empleado(id_empleado),
+    foreign key(id_proveedor) references proveedor(id_proveedor)
+);
+
+-- Relacionando la tabla empleado con la tabla acceso
+ALTER TABLE acceso
+		ADD FOREIGN KEY (id_empleado)
+			REFERENCES empleado(id_empleado);
+
+
+-- Insertando registros en la tabla marca
+insert into marca values("MA001","KABA");
+insert into marca values("MA002","PRASTEL");
+insert into marca values("MA003","PONZI");
+insert into marca values("MA004","ARCON");
+insert into marca values("MA005","ALUMINIOS LAFI");
+
+-- Insertando registros en la tabla modelo
+insert into modelo values("MO001","ELEVADIZA");
+insert into modelo values("MO002","ENRROLLABLES");
+insert into modelo values("MO003","CORREDERAS");
+
+-- Insertando registros en la tabla tipo_empleado
+insert into tipo_empleado values("TE001","GERENTE");
+insert into tipo_empleado values("TE002","EMPLEADO");
+insert into tipo_empleado values("TE003","SERVICIOS");
+
+-- Insertando registros en la tabla area
+insert into area values("AR001","GERENCIA");
+insert into area values("AR002","VENTAS");
+insert into area values("AR003","COMPRAS");
+insert into area values("AR004","ALMACEN");
+
+-- Insertando registros en la tabla tipo_documento
+insert into tipo_documento values("TD001","DNI");
+insert into tipo_documento values("TD002","CARNET DE EXTANJERIA");
+insert into tipo_documento values("TD003","PASAPORTE");
+insert into tipo_documento values("TD004","PARTIDA DE NACIMIENTO");
+
+-- Insertando registros en la tabla empleado
+insert into empleado values("EP001","AR001","TD001","44444444","JUAN","PALOMINO DELGADO","HUAYCAN-ATE-LIMA-LIMA","3456234","1987/10/10","JUAN@GMAIL.COM","M",1);
+insert into empleado values("EP002","AR001","TD001","64756345","MARIA","MARTINEZ SULCA","VITARTE-ATE-LIMA-LIMA","3467364","1990/09/28","MARIA@GMAIL.COM","F",0);
+insert into empleado values("EP003","AR001","TD001","44444444","ELOY","ELOY","LIMA-LIMA","3467464","1990/09/28","ELOY@GMAIL.COM","M",1);
+
+-- Insertando registros en la tabla acceso
+insert into acceso values("EP001","TE001","JUAN","1230JUAN","2021/06/16",1);
+insert into acceso values("EP002","TE003","MARIA","MARIA12","2020/06/16",1);
+insert into acceso values("EP003","TE003","ELOY","123","2020/06/19",1);
+
+-- Insertando registros en la tabla proveedor
+insert into proveedor values("PR001","TD001","23456789","PEPE","ROJAS AREAS","MIRAFLORES-LIMA-LIMA","4352634","PEP@GMAIL.COM","20234553342","SODIMAC","WWW.SODIMAC.COM",1);
+insert into proveedor values("PR002","TD002","64646733","ELSA","SANTOS VEGA","SAN BORJA-LIMA-LIMA","956465657","ELSASANTOS@GMAIL.COM","20234545842","PROMART","WWW.PROMART.COM",1);
+
+-- Insertando registros en la tabla producto
+insert into producto values("PR001","MO001","MA004","PUERTA ELEVADIZA DE COCHERA","PUERTA ELEVADIZA DE COCHERA DE ALUMINIO CON REVESTIMIENTO DE MADERA",5,25,"UNID",1120.50);
+insert into producto values("PR002","MO002","MA003","PUERTA PRINCIPAL METALICA","PUERTA PRINCILAL METALICA DE 1Mx2.45M",15,100,"UNID",850.0);
+
+
+

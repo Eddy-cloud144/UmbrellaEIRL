@@ -1,0 +1,55 @@
+body {
+  overflow-x: hidden;
+}
+.registro__container {
+  width: 100%;
+  height: 100%;
+}
+.container {
+  margin-top: 20px;
+}
+.registro__container .container form .btn--nuevo button {
+  width: 90px;
+  height: 30px;
+  border: none;
+  border-radius: 5px;
+  background-color: #0dcaf0;
+  margin-left: 12rem;
+  color: white;
+  font-weight: bold;
+  font-size: 1.4rem;
+}
+.container form .buscar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.container form .buscar .buscar--input {
+  margin-left: 5rem;
+}
+.container form .buscar .buscar--input .input input {
+  width: 150px;
+  outline: none;
+  padding: 0px 5px;
+}
+.container form .buscar .button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 43px;
+  padding-top: 2rem;
+  margin-left: 1rem;
+}
+.container form .buscar .button button {
+  width: 90px;
+  height: 30px;
+  border: none;
+  border-radius: 5px;
+  background-color: #0dcaf0;
+  color: white;
+  font-weight: bold;
+  font-size: 1.4rem;
+}
+.table--container {
+  padding-top: 3rem;
+}
